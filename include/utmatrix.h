@@ -79,8 +79,8 @@ TVector<ValType>::TVector(const TVector<ValType> &v)
 {
 	Size = v.Size;
 	StartIndex = v.StartIndex;
-	pVector = new ValType[Size];
-	for (int i = 0; i < Size; i++)
+	pVector = new ValType[Size- StartIndex];
+	for (int i = 0; i < Size - StartIndex; i++)
 	{
 		pVector[i] = v.pVector[i];
 	}
@@ -106,7 +106,7 @@ bool TVector<ValType>::operator==(const TVector &v) const
 	if (Size != v.Size || StartIndex != v.StartIndex)
 		return false;
 
-	for (int i = 0; i < Size; i++)
+	for (int i = 0; i < Size - StartIndex; i++)
 	{
 		if (pVector[i] != v.pVector[i])
 			return false;
@@ -129,8 +129,8 @@ TVector<ValType>& TVector<ValType>::operator=(const TVector &v)
 	Size = v.Size;
 	StartIndex = v.StartIndex;
 	delete[] pVector;
-	pVector = new ValType[Size];
-	for (int i = 0; i < Size; i++)
+	pVector = new ValType[Size - StartIndex];
+	for (int i = 0; i < Size - StartIndex; i++)
 		pVector[i] = v.pVector[i];
 
 	return *this;
@@ -140,7 +140,7 @@ template <class ValType> // прибавить скаляр
 TVector<ValType> TVector<ValType>::operator+(const ValType &val)
 {
 	TVector res(*this);
-	for (int i = 0; i < Size; i++)
+	for (int i = 0; i < Size - StartIndex; i++)
 		res.pVector[i] += val;
 	return res;
 } /*-------------------------------------------------------------------------*/
@@ -154,7 +154,7 @@ TVector<ValType> TVector<ValType>::operator-(const ValType &val)
 template <class ValType> // умножить на скаляр
 TVector<ValType> TVector<ValType>::operator*(const ValType &val)
 {
-	for (int i = 0; i < Size; i++)
+	for (int i = 0; i < Size - StartIndex; i++)
 		pVector[i] *= val;
 	return *this;
 } /*-------------------------------------------------------------------------*/
@@ -165,7 +165,7 @@ TVector<ValType> TVector<ValType>::operator+(const TVector<ValType> &v)
 	if (Size != v.Size || StartIndex != v.StartIndex)
 		throw 1;
 	TVector<ValType> res(Size, StartIndex);
-	for (int i = 0; i < Size; i++)
+	for (int i = 0; i < Size - StartIndex; i++)
 	{
 		res.pVector[i] = pVector[i] + v.pVector[i];
 	}
@@ -178,7 +178,7 @@ TVector<ValType> TVector<ValType>::operator-(const TVector<ValType> &v)
 	if (Size != v.Size || StartIndex != v.StartIndex)
 		throw 1;
 	TVector<ValType> res(Size, StartIndex);
-	for (int i = 0; i < Size; i++)
+	for (int i = 0; i < Size - StartIndex; i++)
 	{
 		res.pVector[i] = pVector[i] - v.pVector[i];
 	}
@@ -191,7 +191,7 @@ ValType TVector<ValType>::operator*(const TVector<ValType> &v)
 	if (Size != v.Size || StartIndex != v.StartIndex)
 		throw 1;
 	ValType res = 0;
-	for (int i = 0; i < Size; i++)
+	for (int i = 0; i < Size - StartIndex; i++)
 	{
 		res += pVector[i] * v.pVector[i];
 	}
